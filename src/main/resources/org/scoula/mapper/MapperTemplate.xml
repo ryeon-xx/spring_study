@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0/EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+     XML 매퍼와 같이 쓰기
+      src/main/resources
+        ▪ org/scoula/mapper  ==> Mapper 인터페이스와 같은 패키지 경로여야 함
+          - MapperTemplate.xml   ==> 인터페이스명과 파일명이 같아야 함
+-->
+
+                        <!-- TimeMapper 인터페이스 경로 -->
+<mapper namespace="">
+
+</mapper>
+
