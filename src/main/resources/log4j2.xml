@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--
+     로그의 레벨 설정
+      - 너무 많은 로그 메시지 출력 -> 로그 레벨 이용하여 수정 가능
+      - 로그 레벨
+        ▪ FATAL : 가장 크리티컬한 에러가 일어 났을 때만 로깅
+        ▪ ERROR : 일반 에러가 일어 났을 때만 로깅
+        ▪ WARN  : 에러는 아니지만 주의할 필요가 있을 때만 로깅
+        ▪ INFO  : 일반 정보를 나타낼 때 로깅 (INFO + ERROR)
+        ▪ DEBUG : 일반 정보를 상세히 나타낼 때 로깅 (디버깅 정보)
+        ▪ TRACE : 경로추적을 위해 사용
+-->
+
 <Configuration>
     <!-- Appender, Layout 설정 -->
     <Appenders>
