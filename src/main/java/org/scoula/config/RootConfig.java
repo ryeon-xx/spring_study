@@ -4,6 +4,8 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -24,7 +26,15 @@ import javax.sql.DataSource;
 @ComponentScan(basePackages = {
         "org.scoula"
 })
+// @MapperScan(basePackages = {  })
+// @MapperScan
+//  ▪ Mapper 인터페이스를 검색할 패키지 목록 지정
+//  ▪ 해당 인터페이스를 빈으로 등록
+//  ▪ 해당 인터페이스의 구현체를 동적으로 자동 생성
 public class RootConfig {
+
+    @Autowired
+    ApplicationContext applicationContext;
 
     // @Value("${키:기본값}")
     //  ▪ 필드 레벨 어노테이션
@@ -52,6 +62,8 @@ public class RootConfig {
     }
 
     @Bean
+    // SQLSession : Connection 생성, SQL 전달, 결과 리턴 등 처리
+    // SQLSessionFactory : SQLSession 객체 생성
     public SqlSessionFactory sqlSessionFactory(ApplicationContext applicationContext) throws Exception {
         SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
         sqlSessionFactory.setConfigLocation(applicationContext.getResource("classpath:/mybatis-config.xml"));
