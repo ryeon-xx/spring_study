@@ -43,6 +43,7 @@ public class ServletConfig implements WebMvcConfigurer {
     }
 
 
+    // Servlet 3.0 파일 업로드 사용시 - MultipartResolver 빈 등록
     @Bean
     public MultipartResolver multipartResolver() {
         StandardServletMultipartResolver resolver = new StandardServletMultipartResolver();

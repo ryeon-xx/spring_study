@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -16,6 +17,9 @@ import javax.sql.DataSource;
 @Configuration
 // @Configuration : 이 클래스가 스프링 설정을 담는 클래스임을 표시
 @PropertySource({"classpath:/application.properties"})
+@ComponentScan(basePackages = {
+        "org.scoula"
+})
 public class RootConfig {
 
     @Value("${jdbc.driver}") String driver;
@@ -23,8 +27,10 @@ public class RootConfig {
     @Value("${jdbc.username}") String username;
     @Value("${jdbc.password}") String password;
 
+
+    // 빈(Bean) : 스프링이 직접 생성하고 관리하는 객체
     @Bean
-    // @Bean : 이 메소드가 돌려주는 객체를 컨텍스트에 빈으로 등록
+    // 이 메소드가 돌려주는 객체를 컨텍스트에 빈으로 등록
     public DataSource dataSource() {
         HikariConfig config = new HikariConfig();
         config.setDriverClassName(driver);
