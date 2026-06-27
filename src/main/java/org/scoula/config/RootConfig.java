@@ -17,11 +17,19 @@ import javax.sql.DataSource;
 @Configuration
 // @Configuration : 이 클래스가 스프링 설정을 담는 클래스임을 표시
 @PropertySource({"classpath:/application.properties"})
+// @PropertySource({"properties 경로 문자열"})
+//  ▪ 클래스 레벨 어노테이션
+//  ▪ 사용할 .properties 경로를 지정
+//  ▪ 예 : @PropertySource({ "classpath:/application.properties" })
 @ComponentScan(basePackages = {
         "org.scoula"
 })
 public class RootConfig {
 
+    // @Value("${키:기본값}")
+    //  ▪ 필드 레벨 어노테이션
+    //  ▪ 기본값은 생략 가능
+    //  ▪ 예 : @Value("${jdbc.driver}") String driver;
     @Value("${jdbc.driver}") String driver;
     @Value("${jdbc.url}") String url;
     @Value("${jdbc.username}") String username;
