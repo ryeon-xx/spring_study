@@ -17,7 +17,7 @@ import org.springframework.web.servlet.view.JstlView;
 // @ComponentScan : Spring MVC용 컴포넌트 등록을 위한 스캔 패키지
 @ComponentScan(basePackages = {
         "org.scoula.controller",
-        "org.scoula.exception"
+        "org.scoula.exception"  // 예외 처리 클래스가 있는 패키지 추가
 })
 public class ServletConfig implements WebMvcConfigurer {
 
@@ -45,6 +45,7 @@ public class ServletConfig implements WebMvcConfigurer {
 
     // Servlet 3.0 파일 업로드 사용시 - MultipartResolver 빈 등록
     @Bean
+    // 멀티파트 요청을 처리하는 담당자를 빈으로 등록
     public MultipartResolver multipartResolver() {
         StandardServletMultipartResolver resolver = new StandardServletMultipartResolver();
 

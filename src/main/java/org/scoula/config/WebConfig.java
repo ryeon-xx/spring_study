@@ -10,10 +10,10 @@ import javax.servlet.ServletRegistration;
 
 public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
 
-    final String LOCATION = "c:/upload";
-    final long MAX_FILE_SIZE = 1024 * 1024 * 10L;  // 10MB
-    final long MAX_REQUEST_SIZE = 1024 * 1024 * 20L;  // 20MB
-    final int FILE_SIZE_THRESHOLD = 1024 * 1024 * 5;  // 5MB
+    final String LOCATION = "c:/upload";              // 업로드 한 파일을 저장할 디렉토리 경로
+    final long MAX_FILE_SIZE = 1024 * 1024 * 10L;     // 10MB, 파일 하나의 최대 크기
+    final long MAX_REQUEST_SIZE = 1024 * 1024 * 20L;  // 20MB, 한 번에 올리는 전체 파일의 최대 크기
+    final int FILE_SIZE_THRESHOLD = 1024 * 1024 * 5;  // 5MB, 이 크기보다 작으면 디스크 대신 메모리에서 처리
     // -1 : 크기 제한 없음
 
     @Nullable
@@ -49,6 +49,10 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 
     @Override
     protected void customizeRegistration(ServletRegistration.Dynamic registration) {
+        // 처리할 컨트롤러가 없으면 예외를 던지도록 설정
+        registration.setInitParameter("throwExceptionIfNoHandlerFound", "true");
+
+        // 파일 업로드 설정
         MultipartConfigElement multipartConfig = new MultipartConfigElement(
                 LOCATION,              // 업로드 처리 디렉토리 경로
                 MAX_FILE_SIZE,         // 업로드 가능한 파일 하나의 최대 크기
