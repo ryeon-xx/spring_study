@@ -1,0 +1,20 @@
+# ── Gradle 빌드 산출물 ──────────────────
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar   # wrapper jar는 예외로 커밋해야 함 (다른 PC에서 gradle 설치 없이 빌드 가능하게)
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# ── IntelliJ IDEA 개인 설정 (다른 PC/사람과 공유하면 안 되는 파일들) ──
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# ── 운영체제 잡파일 ──────────────────
+.DS_Store
+
+
+# ── 민감 정보 포함 설정 파일 (DB 계정/비밀번호 등 노출 방지) ──────────────────
+application.properties
