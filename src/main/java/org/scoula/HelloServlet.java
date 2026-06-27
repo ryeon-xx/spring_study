@@ -1,4 +1,4 @@
-package org.scoula.spring_study;
+package org.scoula;
 
 import java.io.*;
 import javax.servlet.http.*;
