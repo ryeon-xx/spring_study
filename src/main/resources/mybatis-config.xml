@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+<!-- MyBatis 설정하는 거 여기다 넣는듯. -->
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true" />
+    </settings>
+</configuration>
+
+<!--
+     MyBatis 전역 설정 파일
+
+     mapUnderscoreToCamelCase
+     - DB 컬럼명 reg_date, update_date를 Java 필드명 regDate, updateDate로 자동 매핑함
+
+     typeAliases
+     - XML Mapper에서 resultType="org.scoula.board.domain.BoardVO" 대신
+       resultType="BoardVO"처럼 짧게 사용 가능하게 함
+-->
