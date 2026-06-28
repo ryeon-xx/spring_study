@@ -44,17 +44,17 @@ spring-mvc-skeleton
 ---
 ## 1. Spring MVC 라이프 사이클
 
-> 처리 순서 :
+> #### 처리 순서 :
 > Filter -> DispatcherServlet -> HandlerMapping -> HandlerInterceptor -> Controller
 > -> Service -> Repository(Mapper) -> ViewResolver 순
  
-> Filter
+> #### Filter
 > 
 > - Web Application의 전역적인 로직을 담당
 > - Filter라는 단어 뜻에서 알 수 있듯, 전체적인 필터링(설정)을 하는 곳
 > - DispatcherServlet에 들어가기 전인 Web Application 단에서 실행
 
-> DispatcherServlet
+> #### DispatcherServlet
 > 
 > - 들어오는 모든 Request를 우선적으로 받아 처리해주는 서블릿
 > - HandlerMapping에게 Request에 대해 매핑할 Controller 검색을 요청
@@ -62,34 +62,34 @@ spring-mvc-skeleton
 > 
 >   → Request에 대해 어느 컨트롤러로 매핑시킬 것인지 배치하는 역할
 
-> HandlerMapping
+> #### HandlerMapping
 > 
 > - DispatcherServlet으로부터 검색을 요청받은 Controller를 찾아 정보를 리턴
 
-> HandlerInterceptor
+> #### HandlerInterceptor
 > 
 > - Request가 Controller 매핑되기 전 앞 단에서 부가적인 로직을 추가
 > - 주로 세션, 쿠키, 권한 인증 로직에 많이 사용됩니다.
  
-> Controller
+> #### Controller
 > 
 > - Request와 매핑되는 곳
 > - Request에 대해 어떤 로직(Service) 으로 처리할 것인지를 결정
 > - 그에 맞는 Service를 호출
 > - Service Bean을 스프링 컨테이너로부터 주입
 
-> Service
+> #### Service
 > 
 > - 데이터 처리 및 가공을 위한 비즈니스 로직을 수행
 > - Request에 대한 실질적인 로직을 수행
 > - Repository를 통해 DB에 접근하여 데이터의 CRUD(Create, Read, Update, Delete)를 처리
 
-> Repository (DAO, Data Access Object)
+> #### Repository (DAO, Data Access Object)
 > 
 > - "DB에 접근하는 객체" 라고 부릅니다.
 > - Service에서 DB에 접근할 수 있게 하여 데이터의 CRUD 처리
 
-> ViewResolver
+> #### ViewResolver
 > 
 > - Controller에서 리턴한 View의 이름을 DispatcherServlet으로부터 넘겨받고,
 > - 해당 View로 forward
@@ -98,3 +98,62 @@ spring-mvc-skeleton
 
 
 ---
+
+## 2. Security Filter Chain
+
+> #### Security ContextPersistenceFilter
+> 
+> - request가 발생하면 SecurityContext 객체의 생성, 저장, 조회를 담당하는 필터
+> - 새로운 SecurityContext를 생성하여 SecurityContextHolder에 저장
+> - 익명의 사용자의 경우
+>   - AnonymousAuthenticationFilter에서 AnonymousAuthenticationToken 객체를 SecurityContext에 저장
+> - 인증 시
+>   - UsernamePasswordAuthenticationFilter에서 인증 성공 후 SecurityContext에
+> 
+>     UsernamePasswordAuthentication객체를 Authentication객체와 함께 저장
+>   - 인증이 완료되면 Session에 SecurityContext를 저장하고 응답함
+> - 인증 후
+>   - Session에서 SecurityContext를 꺼내 SecurityContextHolder에 저장
+>   - SecurityContext 내 Authentication 객체가 있으면 인증을 유지
+ 
+> #### LogoutFilter
+> 
+> - 유저의 로그아웃을 진행
+> - 설정된 로그아웃 URL로 오는 요청을 감시하며, 해당 유저를 로그아웃 처리
+
+> #### UsernamePasswordAuthenticationFilter
+> 
+> - 설정된 로그인 URL로 오는 요청을 감시하며, 유저 인증을 처리
+> - 인증 실패 시, AuthenticationFailureHandler를 실행
+
+> #### DefaultLoginPageGeneratingFilter
+> 
+> - 사용자가 별도의 로그인 페이지를 구현하지 않은 경우, 기본적으로 설정한 로그인 페이지를 처리
+
+> #### BasicAuthenticationFilter
+> 
+> - HTTP요청의 (BASIC)인증 헤더를 처리하여 결과를 SecurityContextHolder에 저장
+
+> #### RememberMeAuthenticationFilter
+> 
+> - SecurityContext에 인증(Authentication) 객체가 있는지 확인
+> - RememberMeServices를 구현한 객체의 요청이 있을 경우, Remember-Me 인증 토큰으로 컨텍스트에 주입
+
+> #### AnonymousAuthenticationFilter
+> 
+> - SecurityContextHolder에 인증(Authentication) 객체가 있는지 확인
+> - 필요한 경우 Authentication 객체를 주입
+
+> #### SessionManagementFilter
+> 
+> - 요청이 시작된 이후 인증된 사용자인지 확인하고, 인증된 사용자일 경우, SessionAuthenticationStrategy를 호출하여
+>   세션 고정 보호 매커니즘을 활성화하거나 여러 동시 로그인을 확인하는 것과 같은 세션 관련 활동을 수행
+> - 다른 브라우저에 이미 로그인한 경우, 여러 브라우저에서 로그인 불가 처리
+
+> #### ExceptionTranslationFilter
+> 
+> - 필터 체인 내에서 발생하는 모든 예외(AccessDeniedException, AuthenticationException)를 처리
+
+> #### FilterSecurityInterceptor
+> 
+> - HTTP 리소스의 보안처리를 수행
